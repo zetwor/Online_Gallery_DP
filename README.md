@@ -9,11 +9,11 @@
 * **HTML**
 * **CSS**
 * **JavaScript**
-* **Firebase Authentication**
-* **Firebase Firestore**
-* **Firebase Storage**
-* **EmailJS**
-* **Visual Studio Code**
+* **LocalStorage**
+* **FileReader API**
+* **Compressor.js**
+* **Google Fonts**
+* **IntelliJ IDEA**
 
 ## Опублікований продукт
 Вебзастосунок доступний онлайн та дозволяє створювати фотоальбоми, переглядати зображення та взаємодіяти між фотографом і клієнтом.
