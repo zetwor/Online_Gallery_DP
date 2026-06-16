@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhotoSphere | Онлайн-галереї для фотографів</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#e53935">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
+    <script src="с"></script>
+    <script src="https://cdn.jsdelivr.net/npm/compressorjs@1.2.1/dist/compressor.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,sans-serif;background:#0a0a0a;color:#fff;overflow-x:hidden}button,input,textarea,select{font-family:inherit}.container{max-width:1420px;margin:auto;padding:0 36px}.red{color:#e53935}.btn-primary,.btn-secondary,.btn-outline{border:none;border-radius:999px;padding:12px 22px;font-weight:800;cursor:pointer;transition:.25s;display:inline-flex;align-items:center;justify-content:center;gap:9px}.btn-primary{background:linear-gradient(135deg,#ff4b47,#c62828);color:#fff;box-shadow:0 14px 35px rgba(229,57,53,.25)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(229,57,53,.38)}.btn-secondary{background:#181818;color:#fff;border:1px solid #303030}.btn-secondary:hover{border-color:#e53935;color:#fff}.btn-outline{background:transparent;color:#e53935;border:1px solid #e53935}.btn-outline:hover{background:#e53935;color:#fff}.header{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(10,10,10,.84);backdrop-filter:blur(18px);border-bottom:1px solid rgba(229,57,53,.25)}.header .container{height:78px;display:flex;align-items:center;justify-content:space-between}.logo{font-size:25px;font-weight:900;display:flex;align-items:center;gap:12px}.logo i{color:#e53935}.logo span span{color:#e53935}.nav{display:flex;gap:28px}.nav a{color:#cfcfcf;text-decoration:none;font-weight:700}.nav a:hover{color:#e53935}.hero{min-height:100vh;padding:130px 0 80px;position:relative;background:radial-gradient(circle at 75% 20%,rgba(229,57,53,.18),transparent 34%),radial-gradient(circle at 10% 70%,rgba(255,255,255,.05),transparent 30%)}.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:55px;align-items:center}.badge{display:inline-flex;gap:10px;align-items:center;background:rgba(229,57,53,.13);border:1px solid rgba(229,57,53,.35);padding:9px 16px;border-radius:999px;color:#ffb4b1;font-weight:800;margin-bottom:22px}.hero h1{font-size:62px;line-height:1.05;font-weight:900;letter-spacing:-2px;margin-bottom:22px}.hero p{font-size:19px;line-height:1.7;color:#b8b8b8;max-width:720px;margin-bottom:30px}.hero-actions{display:flex;gap:16px;flex-wrap:wrap}.hero-panel{background:linear-gradient(180deg,#171717,#0d0d0d);border:1px solid #292929;border-radius:36px;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.5);position:relative}.hero-panel img{width:100%;height:430px;object-fit:cover;border-radius:28px;filter:saturate(1.05)}.floating-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}.float-stat{background:#0a0a0a;border:1px solid #2b2b2b;border-radius:20px;padding:16px;text-align:center}.float-stat b{color:#e53935;font-size:24px;display:block}.section{padding:95px 0}.section.alt{background:#101010}.section-title{text-align:center;margin-bottom:52px}.section-title h2{font-size:42px;margin-bottom:12px}.section-title p{color:#aaa;font-size:18px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}.card{background:linear-gradient(180deg,#151515,#0f0f0f);border:1px solid #282828;border-radius:28px;padding:30px;transition:.25s}.card:hover{transform:translateY(-6px);border-color:#e53935;box-shadow:0 22px 48px rgba(229,57,53,.14)}.card i{font-size:34px;color:#e53935;margin-bottom:18px}.card h3{font-size:21px;margin-bottom:10px}.card p{color:#aaa;line-height:1.6}.demo-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr;grid-auto-rows:230px;gap:20px}.demo{position:relative;border-radius:28px;overflow:hidden;border:1px solid #292929}.demo:first-child{grid-row:span 2}.demo img{width:100%;height:100%;object-fit:cover;transition:.35s}.demo:hover img{transform:scale(1.06)}.demo span{position:absolute;left:18px;bottom:18px;background:rgba(0,0,0,.65);padding:10px 16px;border-radius:999px;font-weight:800}.footer{background:#050505;border-top:1px solid #202020;padding:48px 0;color:#888}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:25px}.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.86);backdrop-filter:blur(12px);z-index:200;align-items:center;justify-content:center;padding:20px}.modal-content{background:#111;border:1px solid rgba(229,57,53,.65);border-radius:30px;max-width:560px;width:100%;padding:28px;box-shadow:0 30px 90px rgba(0,0,0,.6)}.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.close{cursor:pointer;font-size:28px;color:#aaa}.form-group{margin-bottom:16px}.form-group label{display:block;margin-bottom:8px;color:#ddd;font-weight:800}.form-group input,.form-group textarea,.form-group select{width:100%;padding:14px 16px;border-radius:18px;border:1px solid #333;background:#171717;color:#fff;outline:none}.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:#e53935}.error{display:none;margin-top:10px;background:rgba(229,57,53,.12);border:1px solid rgba(229,57,53,.35);color:#ff8a86;padding:12px;border-radius:16px}.success{display:none;margin-top:10px;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.35);color:#62e6ad;padding:12px;border-radius:16px}.dashboard{display:none;min-height:100vh}.sidebar{position:fixed;left:0;top:0;width:286px;height:100vh;background:#101010;border-right:1px solid rgba(229,57,53,.45);padding:24px 16px;overflow:auto}.side-logo{font-size:22px;font-weight:900;margin-bottom:26px;display:flex;gap:10px;align-items:center}.side-logo i{color:#e53935}.profile{padding:18px;border-radius:24px;background:#0a0a0a;border:1px solid #252525;text-align:center;margin-bottom:18px}.avatar{width:72px;height:72px;margin:0 auto 12px;background:#e53935;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px}.profile .name{font-weight:900}.profile .email,.profile .nick{font-size:12px;color:#999;word-break:break-all;margin-top:4px}.side-nav{display:flex;flex-direction:column;gap:7px}.side-nav a{color:#cfcfcf;text-decoration:none;padding:14px 16px;border-radius:18px;font-weight:800;display:flex;gap:12px;align-items:center;cursor:pointer}.side-nav a:hover,.side-nav a.active{background:linear-gradient(135deg,#ef3d39,#b81f1c);color:#fff}.storage{margin:22px 4px;background:#080808;padding:16px;border-radius:20px;border:1px solid #222}.bar{height:7px;background:#2d2d2d;border-radius:999px;overflow:hidden;margin:10px 0}.fill{height:100%;background:#e53935;border-radius:999px}.logout{width:100%;margin-top:18px}.main{margin-left:286px;padding:30px 38px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:28px}.topbar h1{font-size:34px}.content{min-height:70vh}.galleries-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}.gallery-card{background:#111;border:1px solid #282828;border-radius:28px;overflow:hidden;transition:.25s;cursor:pointer}.gallery-card:hover{transform:translateY(-5px);border-color:#e53935}.gallery-cover{height:185px;background-size:cover;background-position:center;position:relative}.private-badge,.like-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.72);border:1px solid #333;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:900}.like-badge{left:12px;right:auto;color:#ff6a66}.gallery-info{padding:18px}.gallery-info h3{margin-bottom:8px}.muted{color:#aaa;font-size:13px}.actions{display:flex;gap:10px;justify-content:flex-end;border-top:1px solid #242424;margin-top:15px;padding-top:12px}.icon{background:#1b1b1b;border:1px solid #303030;color:#bbb;border-radius:13px;padding:10px 12px;cursor:pointer}.icon:hover{color:#fff;background:#e53935;border-color:#e53935}.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:24px}.photos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:20px}.photo-item{position:relative;aspect-ratio:1;border-radius:22px;overflow:hidden;background:#111;border:1px solid #292929}.photo-item img{width:100%;height:100%;object-fit:cover}.photo-over{position:absolute;inset:auto 0 0 0;background:linear-gradient(to top,rgba(0,0,0,.85),transparent);padding:14px;display:flex;justify-content:center;gap:12px;opacity:0;transition:.2s}.photo-item:hover .photo-over{opacity:1}.photo-like-count{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.65);border-radius:999px;padding:7px 11px;color:#fff;font-weight:900}.viewer .modal-content{max-width:95vw;width:auto;background:#060606;padding:18px}.viewer img{max-width:86vw;max-height:78vh;border-radius:20px;border:1px solid #e53935}.viewer-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}.nav-view{position:absolute;top:50%;transform:translateY(-50%);font-size:38px;background:rgba(0,0,0,.6);color:#fff;border:1px solid #333;border-radius:50%;width:62px;height:62px;cursor:pointer}.prev{left:28px}.next{right:28px}.counter{position:absolute;top:18px;left:22px;background:rgba(0,0,0,.65);padding:8px 13px;border-radius:999px}.message-card{background:#111;border:1px solid #282828;border-radius:24px;padding:20px;margin-bottom:16px}.message-card h3{display:flex;justify-content:space-between;gap:12px}.reply-box{display:none;margin-top:14px}.setting-card{max-width:720px;background:#111;border:1px solid #2a2a2a;border-radius:28px;padding:25px}.drop{border:2px dashed #3a3a3a;border-radius:28px;padding:36px;text-align:center;background:#101010}.drop.drag{border-color:#e53935;background:rgba(229,57,53,.08)}.preview-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}.preview-row img{width:92px;height:92px;object-fit:cover;border-radius:15px;border:1px solid #e53935}.watermark-preview{background:#1a1a1a;border-radius:12px;padding:10px;margin-top:10px;text-align:center}.slideshow-active{animation:pulse 1s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}@media(max-width:1200px){.galleries-grid,.grid-4{grid-template-columns:repeat(3,1fr)}.hero h1{font-size:50px}}@media(max-width:900px){.nav,.header-buttons{display:none}.hero-grid,.grid-3,.footer-grid{grid-template-columns:1fr}.grid-4,.galleries-grid{grid-template-columns:repeat(2,1fr)}.sidebar{transform:translateX(-100%);z-index:300}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mobile-menu{display:inline-flex!important}.demo-grid{grid-template-columns:1fr;grid-auto-rows:230px}.demo:first-child{grid-row:span 1}}@media(max-width:560px){.container{padding:0 18px}.hero h1{font-size:38px}.grid-4,.galleries-grid{grid-template-columns:1fr}.main{padding:22px 16px}.topbar h1{font-size:26px}.photos-grid{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+<div id="landing">
+    <header class="header"><div class="container"><div class="logo"><i class="fa-solid fa-camera-retro"></i><span>Photo<span>Sphere</span></span></div><nav class="nav"><a href="#home">Головна</a><a href="#features">Можливості</a><a href="#tools">Функції</a><a href="#examples">Галерея</a><a href="#reviews">Відгуки</a></nav><div class="header-buttons"><button class="btn-outline" id="openLoginBtn">Увійти</button><button class="btn-primary" id="openRegisterBtn">Зареєструватися</button></div></div></header>
+    <section class="hero" id="home"><div class="container hero-grid"><div><div class="badge"><i class="fa-solid fa-bolt"></i> професійний кабінет фотографа</div><h1>Онлайн-галерея</h1><p>Створюйте альбоми, завантажуйте фото, надсилайте приватні посилання, отримуйте лайки та повідомлення від клієнтів та список обраних кадрів для обробки.</p><div class="hero-actions"><button class="btn-primary" id="heroRegisterBtn">Створити акаунт</button><button class="btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Переглянути можливості</button></div></div><div class="hero-panel"><img src="https://images.pexels.com/photos/3379934/pexels-photo-3379934.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Фотограф"><div class="floating-stats"><div class="float-stat"><b>10K+</b><span>фото</span></div><div class="float-stat"><b>500+</b><span>альбомів</span></div><div class="float-stat"><b>98%</b><span>задоволених</span></div></div></div></div></section>
+    <section class="section alt" id="features"><div class="container"><div class="section-title"><h2>Можливості системи</h2><p>Все, що потрібно для роботи фотографа з клієнтами</p></div><div class="grid-3"><div class="card"><i class="fa-solid fa-user-shield"></i><h3>Кабінет фотографа</h3><p>Реєстрація, вхід, налаштування профілю, нік фотографа та збереження акаунта після оновлення сторінки.</p></div><div class="card"><i class="fa-solid fa-images"></i><h3>Галереї 4 в ряд</h3><p>Зручна сітка альбомів, де на комп'ютері відображається 4 картки в одному рядку.</p></div><div class="card"><i class="fa-solid fa-link"></i><h3>Дійсні посилання</h3><p>Кожна галерея має унікальне посилання для клієнта з паролем або відкритим доступом.</p></div><div class="card"><i class="fa-solid fa-heart"></i><h3>Лайки клієнтів</h3><p>Клієнт натискає серце, а фотограф одразу бачить кількість вподобань біля потрібного фото.</p></div><div class="card"><i class="fa-solid fa-envelope"></i><h3>Повідомлення клієнтів</h3><p>Клієнт залишає коментар до галереї, а фотограф бачить його у своєму кабінеті.</p></div><div class="card"><i class="fa-solid fa-wand-magic-sparkles"></i><h3>Фото-інструменти</h3><p>Обрізка, стиснення, водяний знак, слайд-шоу та завантаження фото архівом ZIP.</p></div></div></div></section>
+    <section class="section" id="tools"><div class="container"><div class="section-title"><h2>Додаткові фронтенд-фічі</h2><p>Розширені можливості для сучасної онлайн-галереї</p></div><div class="grid-4"><div class="card"><i class="fa-solid fa-crop-simple"></i><h3>Cropper.js</h3><p>Обрізка обкладинки та фото перед збереженням.</p></div><div class="card"><i class="fa-solid fa-compress"></i><h3>Compressor.js</h3><p>Стиснення фото, щоб сайт працював швидше.</p></div><div class="card"><i class="fa-solid fa-stamp"></i><h3>Водяний знак</h3><p>Canvas API додає назву PhotoSphere на фото.</p></div><div class="card"><i class="fa-solid fa-file-zipper"></i><h3>ZIP-архів</h3><p>Завантаження усіх фото галереї одним архівом.</p></div></div></div></section>
+    <section class="section alt" id="examples"><div class="container"><div class="section-title"><h2>Приклади альбомів</h2><p>Весілля, сімейна зйомка, портрети та подорожі</p></div><div class="demo-grid"><div class="demo"><img src="https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg"><span>Весільна</span></div><div class="demo"><img src="https://images.pexels.com/photos/2253879/pexels-photo-2253879.jpeg"><span>Сімейна</span></div><div class="demo"><img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg"><span>Портрет</span></div><div class="demo"><img src="https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg"><span>Подорожі</span></div><div class="demo"><img src="https://images.pexels.com/photos/3014019/pexels-photo-3014019.jpeg"><span>Студія</span></div></div></div></section>
+    <section class="section" id="reviews"><div class="container"><div class="section-title"><h2>Відгуки фотографів</h2><p>Користувачі цінують швидкість та зручність</p></div><div class="grid-3"><div class="card"><i class="fa-solid fa-star"></i><h3>Анна Коваленко</h3><p>“Клієнти швидко обирають улюблені фото, а я бачу всі лайки в кабінеті.”</p></div><div class="card"><i class="fa-solid fa-star"></i><h3>Олександр Шевченко</h3><p>“Дуже зручно надсилати посилання на приватні галереї після фотосесії.”</p></div><div class="card"><i class="fa-solid fa-star"></i><h3>Марія Іваненко</h3><p>“Повідомлення від клієнтів у кабінеті економлять багато часу.”</p></div></div></div></section>
+    <footer class="footer"><div class="container footer-grid"><div><div class="logo"><i class="fa-solid fa-camera-retro"></i><span>Photo<span>Sphere</span></span></div><p style="margin-top:14px;line-height:1.7">Сучасний вебзастосунок для створення персоналізованих фотоальбомів та взаємодії фотографа з клієнтами.</p></div><div><h3>Навігація</h3><p>Головна<br>Можливості<br>Галерея</p></div><div><h3>Контакти</h3><p>Sy.maryna@gmail.com</p></div><div><h3>Соцмережі</h3><p><a href="https://t.me/Zetwor" target="_blank" rel="noopener">Telegram</a></p></div></div></footer>
+</div>
+
+<div id="dashboard" class="dashboard">
+    <aside class="sidebar" id="sidebar">
+        <div class="side-logo"><i class="fa-solid fa-camera-retro"></i> PhotoSphere</div>
+        <div class="profile"><div class="avatar"><i class="fa-solid fa-user"></i></div><div class="name" id="sideName"></div><div class="nick" id="sideNick"></div><div class="email" id="sideEmail"></div></div>
+        <nav class="side-nav"><a data-page="galleries" class="active"><i class="fa-solid fa-layer-group"></i> Мої галереї</a><a data-page="create"><i class="fa-solid fa-plus-circle"></i> Створити галерею</a><a data-page="messages"><i class="fa-solid fa-comments"></i> Повідомлення</a><a data-page="settings"><i class="fa-solid fa-gear"></i> Налаштування</a><a data-page="watermark"><i class="fa-solid fa-stamp"></i> Водяний знак</a></nav>
+        <div class="storage"><b><i class="fa-solid fa-cloud"></i> Використано сховища</b><div class="bar"><div class="fill" id="storageFill"></div></div><span id="storageText">0 МБ з 1024 МБ</span></div>
+        <button class="btn-outline logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Вийти</button>
+    </aside>
+    <main class="main"><div class="topbar"><button class="btn-secondary mobile-menu hidden" id="mobileMenu"><i class="fa-solid fa-bars"></i></button><h1 id="pageTitle">Мої галереї</h1><button class="btn-primary" id="newGalleryBtn"><i class="fa-solid fa-plus"></i> Нова галерея</button></div><div id="content" class="content"></div></main>
+</div>
+
+<div class="modal" id="authModal"><div class="modal-content"><div class="modal-header"><h2 id="authTitle">Вхід</h2><span class="close" data-close="authModal">&times;</span></div>
+    <form id="loginForm"><div class="form-group"><label>Email</label><input id="loginEmail" type="email" required></div><div class="form-group"><label>Пароль</label><input id="loginPassword" type="password" required></div><button class="btn-primary" style="width:100%">Увійти</button><p style="margin-top:15px;color:#aaa;text-align:center">Немає акаунту? <a href="#" id="toRegisterLink" class="red">Зареєструватися</a></p><div class="error" id="loginError"></div></form>
+    <form id="registerForm" style="display:none"><div class="form-group"><label>Ім'я фотографа</label><input id="regName" required></div><div class="form-group"><label>Нік фотографа</label><input id="regNick" placeholder="Наприклад: julia_photo" required></div><div class="form-group"><label>Email</label><input id="regEmail" type="email" required></div><div class="form-group"><label>Пароль</label><input id="regPassword" type="password" minlength="6" required></div><div class="form-group"><label>Підтвердження пароля</label><input id="regConfirm" type="password" required></div><button class="btn-primary" style="width:100%">Зареєструватися</button><p style="margin-top:15px;color:#aaa;text-align:center">Вже маєте акаунт? <a href="#" id="toLoginLink" class="red">Увійти</a></p><div class="error" id="regError"></div><div class="success" id="regSuccess"></div></form>
+</div></div>
+
+<div class="modal" id="galleryModal"><div class="modal-content"><div class="modal-header"><h2 id="galleryModalTitle">Створити галерею</h2><span class="close" data-close="galleryModal">&times;</span></div>
+    <form id="galleryForm"><input type="hidden" id="galleryId"><div class="form-group"><label>Назва галереї</label><input id="galleryTitle" required></div><div class="form-group"><label>Опис</label><textarea id="galleryDesc" rows="3"></textarea></div><div class="form-group"><label>URL обкладинки або завантаження</label><input id="galleryCover" placeholder="https://..."><input id="coverFile" type="file" accept="image/*" style="margin-top:10px"></div><div class="form-group"><label>Тип доступу</label><select id="galleryAccess"><option value="public">Публічна</option><option value="private">Приватна з паролем</option></select></div><div class="form-group" id="passGroup" style="display:none"><label>Пароль галереї</label><input id="galleryPassword" type="password"></div><button class="btn-primary" style="width:100%">Зберегти</button></form>
+</div></div>
+
+<div class="modal" id="uploadModal"><div class="modal-content"><div class="modal-header"><h2>Завантажити фото</h2><span class="close" data-close="uploadModal">&times;</span></div>
+    <div class="drop" id="dropArea"><i class="fa-solid fa-cloud-arrow-up" style="font-size:40px;color:#e53935"></i><h3>Перетягніть фото сюди</h3><p class="muted">JPG, PNG, WEBP. Перед збереженням фото стискаються та отримують водяний знак.</p><button class="btn-primary" id="chooseFiles" style="margin-top:16px">Вибрати файли</button><input id="fileInput" type="file" accept="image/*" multiple hidden></div>
+    <div class="preview-row" id="uploadPreview"></div><div class="bar" style="margin-top:18px"><div class="fill" id="uploadFill" style="width:0%"></div></div><p id="uploadStatus" class="muted">Очікування файлів...</p>
+</div></div>
+
+<div class="modal viewer" id="viewerModal"><button class="nav-view prev" id="prevPhotoBtn"><i class="fa-solid fa-chevron-left"></i></button><button class="nav-view next" id="nextPhotoBtn"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="modal-content"><span class="close" data-close="viewerModal" style="position:absolute;right:25px;top:15px;z-index:5">&times;</span><div class="counter" id="viewerCounter">1 / 1</div><img id="viewerImg"><div class="viewer-actions"><button class="btn-secondary" id="copyPhotoLinkBtn"><i class="fa-solid fa-link"></i> Скопіювати посилання</button><button class="btn-secondary" id="downloadPhotoBtn"><i class="fa-solid fa-download"></i> Завантажити</button><button class="btn-secondary" id="slideshowBtn"><i class="fa-solid fa-play"></i> Слайд-шоу</button><button class="btn-outline" id="deletePhotoBtn"><i class="fa-solid fa-trash"></i> Видалити</button></div></div></div>
+
+<div class="modal" id="linkModal"><div class="modal-content"><div class="modal-header"><h2>Посилання для клієнта</h2><span class="close" data-close="linkModal">&times;</span></div><div class="form-group"><input id="shareLink" readonly></div><button class="btn-primary" id="copyShareBtn">Скопіювати посилання</button></div></div>
+
+<div class="modal" id="watermarkModal"><div class="modal-content"><div class="modal-header"><h2><i class="fa-solid fa-stamp red"></i> Налаштування водяного знаку</h2><span class="close" data-close="watermarkModal">&times;</span></div>
+    <div class="form-group"><label>Текст водяного знаку</label><input type="text" id="watermarkText" placeholder="PhotoSphere" value="PhotoSphere"></div>
+    <div class="form-group"><label>Позиція</label><select id="watermarkPosition"><option value="bottom-right">Нижній правий кут</option><option value="bottom-left">Нижній лівий кут</option><option value="top-right">Верхній правий кут</option><option value="top-left">Верхній лівий кут</option><option value="center">По центру</option></select></div>
+    <div class="form-group"><label>Прозорість (0-1)</label><input type="range" id="watermarkOpacity" min="0" max="1" step="0.1" value="0.62"><span id="opacityValue">0.62</span></div>
+    <div class="form-group"><label>Розмір шрифту (px)</label><input type="range" id="watermarkFontSize" min="16" max="80" value="32"><span id="fontSizeValue">32</span></div>
+    <div class="watermark-preview"><canvas id="previewCanvas" width="400" height="250" style="width:100%;border-radius:12px;background:#1a1a1a"></canvas></div>
+    <button class="btn-primary" id="saveWatermarkBtn" style="margin-top:15px;width:100%"><i class="fa-solid fa-floppy-disk"></i> Зберегти налаштування</button>
+</div></div>
+
+<script>
+    let db = { users: [], galleries: [], photos: [], favorites: [], messages: [] };
+    let currentUser = null;
+    let currentGallery = null;
+    let currentPhotos = [];
+    let currentPhotoIndex = 0;
+    let slideShowInterval = null;
+    let isSlideshowActive = false;
+    let watermarkSettings = {
+      text: localStorage.getItem('watermark_text') || 'PhotoSphere',
+      position: localStorage.getItem('watermark_position') || 'bottom-right',
+      opacity: parseFloat(localStorage.getItem('watermark_opacity')) || 0.62,
+      fontSize: parseInt(localStorage.getItem('watermark_fontSize')) || 32
+    };
+
+    function $(id) { return document.getElementById(id); }
+
+    function loadDB() {
+      const v = 'photosphere_clean_2026_06_14';
+      if (localStorage.getItem('photosphere_clean_version') !== v) {
+        localStorage.removeItem('photosphere_db');
+        localStorage.removeItem('photosphere_current_user');
+        localStorage.setItem('photosphere_clean_version', v);
+      }
+      try {
+        const saved = localStorage.getItem('photosphere_db');
+        db = saved ? JSON.parse(saved) : { users: [], galleries: [], photos: [], favorites: [], messages: [] };
+      } catch(e) {
+        db = { users: [], galleries: [], photos: [], favorites: [], messages: [] };
+      }
+      saveDB();
+    }
+
+    function saveDB() {
+      localStorage.setItem('photosphere_db', JSON.stringify(db));
+    }
+
+    function esc(s) {
+      return String(s || '').replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+      }[m]));
+    }
+
+    function uid() {
+      return Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+    }
+
+    function uniqueLink() {
+      return 'gal-' + uid();
+    }
+
+    function clientLink(link) {
+      const url = new URL('client-view.html', window.location.href);
+      url.searchParams.set('id', link);
+      return url.href;
+    }
+
+    function closeAllModals() {
+      document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+    }
+
+    function openModal(id) {
+      $(id).style.display = 'flex';
+    }
+
+    function showScreen(name) {
+      document.getElementById('landing').style.display = name === 'landing' ? 'block' : 'none';
+      document.getElementById('dashboard').style.display = name === 'dashboard' ? 'block' : 'none';
+      closeAllModals();
+    }
+
+    function updateProfile() {
+      if (!currentUser) return;
+      $('sideName').textContent = currentUser.name;
+      $('sideNick').textContent = '@' + currentUser.nick;
+      $('sideEmail').textContent = currentUser.email;
+      updateStorageUsed();
+    }
+
+    function updateStorageUsed() {
+      if (!currentUser) return;
+      const userGalleryIds = db.galleries.filter(g => g.userId === currentUser.id).map(g => g.id);
+      const bytes = db.photos.filter(p => userGalleryIds.includes(p.galleryId)).reduce((s, p) => s + (p.size || 0), 0);
+      const mb = Math.round(bytes / 1024 / 1024);
+      $('storageText').textContent = mb + ' МБ з 1024 МБ';
+      $('storageFill').style.width = Math.min(mb / 1024 * 100, 100) + '%';
+    }
+
+    function setPage(title) {
+      $('pageTitle').textContent = title;
+    }
+
+    function setActiveTab(tab) {
+      document.querySelectorAll('.side-nav a').forEach(a => {
+        a.classList.toggle('active', a.dataset.page === tab);
+      });
+    }
+
+    function renderDashboard() {
+      setActiveTab('galleries');
+      setPage('Мої галереї');
+      $('newGalleryBtn').style.display = 'inline-flex';
+      renderGalleries();
+    }
+
+    function renderGalleries() {
+      const galleries = db.galleries.filter(g => g.userId === currentUser.id);
+      $('content').innerHTML = `
+        <div class="toolbar">
+          <input class="search-input" id="gallerySearch" placeholder="Пошук галерей">
+        </div>
+        <div class="galleries-grid" id="galleriesList"></div>
+      `;
+
+      function draw() {
+        const term = ($('gallerySearch').value || '').toLowerCase();
+        const filtered = galleries.filter(g => g.title.toLowerCase().includes(term));
+        $('galleriesList').innerHTML = filtered.map(g => {
+          const photos = db.photos.filter(p => p.galleryId === g.id);
+          const likes = photos.reduce((s, p) => s + db.favorites.filter(f => f.photoId === p.id).length, 0);
+          const cover = g.coverImage || (photos[0]?.url) || 'https://images.pexels.com/photos/3379934/pexels-photo-3379934.jpeg?auto=compress&cs=tinysrgb&w=600';
+          return `
+            <div class="gallery-card" data-id="${g.id}">
+              <div class="gallery-cover" style="background-image:url('${cover}')">
+                ${g.access === 'private' ? '<div class="private-badge"><i class="fas fa-lock"></i> Приватна</div>' : ''}
+                <div class="like-badge"><i class="fas fa-heart"></i> ${likes}</div>
+              </div>
+              <div class="gallery-info">
+                <h3>${esc(g.title)}</h3>
+                <div class="muted"><i class="far fa-image"></i> ${photos.length} фото</div>
+                <div class="actions">
+                  <button class="icon edit-gallery" data-id="${g.id}"><i class="fas fa-edit"></i></button>
+                  <button class="icon delete-gallery" data-id="${g.id}"><i class="fas fa-trash"></i></button>
+                  <button class="icon share-gallery" data-link="${g.uniqueLink}"><i class="fas fa-share-alt"></i></button>
+                  <button class="icon view-gallery" data-id="${g.id}"><i class="fas fa-eye"></i></button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+        attachGalleryEvents();
+      }
+      $('gallerySearch').oninput = draw;
+      draw();
+      updateStorageUsed();
+    }
+
+    function attachGalleryEvents() {
+      document.querySelectorAll('.gallery-card').forEach(card => {
+        card.onclick = (e) => { if (!e.target.closest('button')) viewGallery(card.dataset.id); };
+      });
+      document.querySelectorAll('.view-gallery').forEach(btn => btn.onclick = (e) => { e.stopPropagation(); viewGallery(btn.dataset.id); });
+      document.querySelectorAll('.edit-gallery').forEach(btn => btn.onclick = (e) => { e.stopPropagation(); editGallery(btn.dataset.id); });
+      document.querySelectorAll('.delete-gallery').forEach(btn => btn.onclick = (e) => { e.stopPropagation(); if(confirm('Видалити галерею?')) deleteGallery(btn.dataset.id); });
+      document.querySelectorAll('.share-gallery').forEach(btn => btn.onclick = (e) => { e.stopPropagation(); showShareLink(btn.dataset.link); });
+    }
+
+    function viewGallery(id) {
+      currentGallery = db.galleries.find(g => g.id == id);
+      if (!currentGallery) return;
+      currentPhotos = db.photos.filter(p => p.galleryId == id);
+      setActiveTab('galleries');
+      setPage(currentGallery.title);
+      $('newGalleryBtn').style.display = 'none';
+      $('content').innerHTML = `
+        <div class="toolbar">
+          <button class="btn-secondary" id="backToGalleries"><i class="fas fa-arrow-left"></i> Назад</button>
+          <button class="btn-primary" id="uploadPhotosBtn"><i class="fas fa-upload"></i> Завантажити фото</button>
+          <button class="btn-secondary" id="shareGalleryBtn"><i class="fas fa-link"></i> Посилання</button>
+        </div>
+        <div class="photos-grid" id="photosGrid"></div>
+      `;
+      $('backToGalleries').onclick = () => renderDashboard();
+      $('uploadPhotosBtn').onclick = () => openUploadModal(id);
+      $('shareGalleryBtn').onclick = () => showShareLink(currentGallery.uniqueLink);
+      renderPhotosGrid();
+    }
+
+    function renderPhotosGrid() {
+      const grid = $('photosGrid');
+      if (!currentPhotos.length) {
+        grid.innerHTML = '<div class="empty-state"><i class="fas fa-images"></i><h2>Фото ще немає</h2><p>Завантажте фото</p></div>';
+        return;
+      }
+      grid.innerHTML = currentPhotos.map((p, i) => {
+        const likes = db.favorites.filter(f => f.photoId === p.id).length;
+        return `
+          <div class="photo-item" data-index="${i}">
+            <img src="${p.url}" loading="lazy">
+            <div class="photo-like-count"><i class="fas fa-heart" style="color:#e53935"></i> ${likes}</div>
+            <div class="photo-over">
+              <button class="icon download-photo" data-url="${p.url}" data-name="${esc(p.fileName)}"><i class="fas fa-download"></i></button>
+              <button class="icon delete-photo" data-id="${p.id}"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.querySelectorAll('.photo-item').forEach(item => {
+        item.onclick = (e) => { if (!e.target.closest('button')) openViewer(parseInt(item.dataset.index)); };
+      });
+      document.querySelectorAll('.delete-photo').forEach(btn => btn.onclick = (e) => { e.stopPropagation(); if(confirm('Видалити фото?')) deletePhoto(btn.dataset.id); });
+      document.querySelectorAll('.download-photo').forEach(btn => btn.onclick = (e) => { e.stopPropagation(); downloadPhoto(btn.dataset.url, btn.dataset.name); });
+    }
+
+    function openViewer(index) {
+      currentPhotoIndex = index;
+      drawViewer();
+      openModal('viewerModal');
+    }
+
+    function drawViewer() {
+      const photo = currentPhotos[currentPhotoIndex];
+      if (!photo) return;
+      $('viewerImg').src = photo.url;
+      $('viewerCounter').textContent = `${currentPhotoIndex+1} / ${currentPhotos.length}`;
+    }
+
+    function deletePhoto(id) {
+      db.photos = db.photos.filter(p => p.id != id);
+      db.favorites = db.favorites.filter(f => f.photoId != id);
+      saveDB();
+      viewGallery(currentGallery.id);
+      updateStorageUsed();
+    }
+
+    function downloadPhoto(url, name) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = name || 'photo.jpg';
+      a.click();
+    }
+
+    function openUploadModal(id) {
+      pendingUploadGalleryId = id;
+      $('uploadPreview').innerHTML = '';
+      $('uploadFill').style.width = '0%';
+      $('uploadStatus').textContent = 'Очікування файлів...';
+      $('fileInput').value = '';
+      openModal('uploadModal');
+    }
+
+    let pendingUploadGalleryId = null;
+
+    function handleFiles(files) {
+      files = files.filter(f => f.type.startsWith('image/'));
+      if (!files.length) return;
+      let done = 0;
+      for (const file of files) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          addWatermarkToImage(e.target.result, (watermarkedUrl) => {
+            db.photos.push({
+              id: uid(),
+              galleryId: pendingUploadGalleryId,
+              url: watermarkedUrl,
+              fileName: file.name,
+              size: watermarkedUrl.length,
+              createdAt: new Date().toISOString()
+            });
+            done++;
+            $('uploadFill').style.width = (done / files.length * 100) + '%';
+            $('uploadStatus').textContent = `Завантажено ${done} з ${files.length}`;
+            if (done === files.length) {
+              saveDB();
+              updateStorageUsed();
+              setTimeout(() => { closeAllModals(); viewGallery(pendingUploadGalleryId); }, 500);
+            }
+          });
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function addWatermarkToImage(imageDataUrl, callback) {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        ctx.fillStyle = `rgba(255, 255, 255, ${watermarkSettings.opacity})`;
+        ctx.font = `${Math.max(24, watermarkSettings.fontSize)}px Inter`;
+        let x = canvas.width - 30, y = canvas.height - 30;
+        ctx.textAlign = 'right';
+        if (watermarkSettings.position === 'bottom-left') { x = 30; ctx.textAlign = 'left'; }
+        if (watermarkSettings.position === 'top-right') { y = 50; }
+        if (watermarkSettings.position === 'top-left') { x = 30; y = 50; ctx.textAlign = 'left'; }
+        if (watermarkSettings.position === 'center') { x = canvas.width/2; y = canvas.height/2; ctx.textAlign = 'center'; }
+        ctx.fillText(watermarkSettings.text, x, y);
+        callback(canvas.toDataURL('image/jpeg', 0.85));
+      };
+      img.src = imageDataUrl;
+    }
+
+    function editGallery(id) {
+      const g = db.galleries.find(x => x.id == id);
+      if (!g) return;
+      $('galleryId').value = g.id;
+      $('galleryTitle').value = g.title;
+      $('galleryDesc').value = g.description || '';
+      $('galleryCover').value = g.coverImage || '';
+      $('galleryAccess').value = g.access || 'public';
+      $('galleryPassword').value = g.password || '';
+      $('passGroup').style.display = g.access === 'private' ? 'block' : 'none';
+      $('galleryModalTitle').textContent = 'Редагувати галерею';
+      openModal('galleryModal');
+    }
+
+    function deleteGallery(id) {
+      const pids = db.photos.filter(p => p.galleryId == id).map(p => p.id);
+      db.galleries = db.galleries.filter(g => g.id != id);
+      db.photos = db.photos.filter(p => p.galleryId != id);
+      db.favorites = db.favorites.filter(f => !pids.includes(f.photoId));
+      saveDB();
+      renderGalleries();
+      updateStorageUsed();
+    }
+
+    function showShareLink(link) {
+      $('shareLink').value = clientLink(link);
+      openModal('linkModal');
+    }
+
+    function renderMessages() {
+      setActiveTab('messages');
+      setPage('Повідомлення');
+      $('newGalleryBtn').style.display = 'none';
+      const msgs = db.messages.filter(m => m.photographerId === currentUser.id || m.photographerNick === currentUser.nick);
+      $('content').innerHTML = msgs.length ? msgs.map(m => {
+        const reply = m.replyText || '';
+        return `
+          <div class="message-card">
+            <h3>${esc(m.clientName)} <span class="muted">${new Date(m.createdAt).toLocaleString()}</span></h3>
+            <p>${esc(m.clientEmail)}</p>
+            <p><b>Повідомлення:</b><br>${esc(m.message || m.text || '')}</p>
+            ${reply ? `<div style="margin:12px 0;padding:12px;border-radius:16px;background:rgba(229,57,53,.08)"><b>Ваша відповідь:</b><p>${esc(reply)}</p></div>` : ''}
+            <button class="btn-primary" onclick="openReplyModal('${m.id}')"><i class="fas fa-reply"></i> ${reply ? 'Змінити відповідь' : 'Відповісти'}</button>
+            <div class="reply-box" id="replyBox${m.id}" style="display:none;margin-top:12px">
+              <textarea id="replyText${m.id}" rows="4">${esc(reply || 'Доброго дня! Дякую за повідомлення.')}</textarea>
+              <button class="btn-secondary" onclick="sendReply('${m.id}')">Зберегти</button>
+            </div>
+          </div>
+        `;
+      }).join('') : '<div class="empty-state"><i class="fas fa-comments"></i><h2>Повідомлень поки немає</h2></div>';
+    }
+
+    function openReplyModal(mid) {
+      const box = document.getElementById('replyBox' + mid);
+      if (box) box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function sendReply(mid) {
+      const m = db.messages.find(x => String(x.id) === String(mid));
+      if (!m) return;
+      const txt = document.getElementById('replyText' + mid).value.trim();
+      if (!txt) { alert('Напишіть відповідь'); return; }
+      m.replyText = txt;
+      m.replyAt = new Date().toISOString();
+      saveDB();
+      alert('Відповідь збережено!');
+      renderMessages();
+    }
+
+    function renderSettings() {
+      setActiveTab('settings');
+      setPage('Налаштування');
+      $('newGalleryBtn').style.display = 'none';
+      $('content').innerHTML = `
+        <div class="setting-card">
+          <form id="settingsForm">
+            <div class="form-group"><label>Ім'я</label><input id="setName" value="${esc(currentUser.name)}"></div>
+            <div class="form-group"><label>Нік фотографа</label><input id="setNick" value="${esc(currentUser.nick)}"></div>
+            <div class="form-group"><label>Email</label><input id="setEmail" value="${esc(currentUser.email)}"></div>
+            <div class="form-group"><label>Новий пароль</label><input id="setPass" type="password" placeholder="Залиште порожнім"></div>
+            <button class="btn-primary">Зберегти</button>
+          </form>
+        </div>
+      `;
+      $('settingsForm').onsubmit = (e) => {
+        e.preventDefault();
+        currentUser.name = $('setName').value.trim();
+        currentUser.nick = $('setNick').value.trim().replace('@', '');
+        currentUser.email = $('setEmail').value.trim();
+        if ($('setPass').value) currentUser.password = $('setPass').value;
+        const idx = db.users.findIndex(u => u.id === currentUser.id);
+        db.users[idx] = currentUser;
+        saveDB();
+        updateProfile();
+        alert('Зміни збережено!');
+      };
+    }
+
+    function updateWatermarkPreview() {
+      const canvas = $('previewCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#2a2a2a';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = `rgba(255, 255, 255, ${watermarkSettings.opacity})`;
+      ctx.font = `${watermarkSettings.fontSize}px Inter`;
+      let x = canvas.width - 20, y = canvas.height - 20;
+      ctx.textAlign = 'right';
+      if (watermarkSettings.position === 'bottom-left') { x = 20; ctx.textAlign = 'left'; }
+      if (watermarkSettings.position === 'top-right') { y = 40; }
+      if (watermarkSettings.position === 'top-left') { x = 20; y = 40; ctx.textAlign = 'left'; }
+      if (watermarkSettings.position === 'center') { x = canvas.width/2; y = canvas.height/2; ctx.textAlign = 'center'; }
+      ctx.fillText(watermarkSettings.text, x, y);
+    }
+
+    function renderWatermarkSettings() {
+      setActiveTab('watermark');
+      setPage('Водяний знак');
+      $('newGalleryBtn').style.display = 'none';
+      $('content').innerHTML = `
+        <div class="setting-card">
+          <h2><i class="fa-solid fa-stamp red"></i> Налаштування водяного знаку</h2>
+          <div class="form-group"><label>Текст</label><input type="text" id="wmText" value="${esc(watermarkSettings.text)}"></div>
+          <div class="form-group"><label>Позиція</label><select id="wmPosition">
+            <option value="bottom-right" ${watermarkSettings.position==='bottom-right'?'selected':''}>Нижній правий</option>
+            <option value="bottom-left" ${watermarkSettings.position==='bottom-left'?'selected':''}>Нижній лівий</option>
+            <option value="top-right" ${watermarkSettings.position==='top-right'?'selected':''}>Верхній правий</option>
+            <option value="top-left" ${watermarkSettings.position==='top-left'?'selected':''}>Верхній лівий</option>
+            <option value="center" ${watermarkSettings.position==='center'?'selected':''}>По центру</option>
+          </select></div>
+          <div class="form-group"><label>Прозорість: <span id="opacityVal">${watermarkSettings.opacity}</span></label><input type="range" id="wmOpacity" min="0" max="1" step="0.1" value="${watermarkSettings.opacity}"></div>
+          <div class="form-group"><label>Розмір: <span id="sizeVal">${watermarkSettings.fontSize}</span>px</label><input type="range" id="wmSize" min="16" max="80" value="${watermarkSettings.fontSize}"></div>
+          <canvas id="wmCanvas" width="400" height="250" style="width:100%;border-radius:12px;background:#1a1a1a"></canvas>
+          <button class="btn-primary" id="applyWatermark" style="margin-top:15px">Зберегти</button>
+        </div>
+      `;
+      const canvas = $('wmCanvas');
+      function preview() {
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#2a2a2a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        const text = $('wmText').value || 'PhotoSphere';
+        const pos = $('wmPosition').value;
+        const op = parseFloat($('wmOpacity').value);
+        const size = parseInt($('wmSize').value);
+        ctx.fillStyle = `rgba(255, 255, 255, ${op})`;
+        ctx.font = `${size}px Inter`;
+        let x = canvas.width - 20, y = canvas.height - 20;
+        ctx.textAlign = 'right';
+        if (pos === 'bottom-left') { x = 20; ctx.textAlign = 'left'; }
+        if (pos === 'top-right') { y = 40; }
+        if (pos === 'top-left') { x = 20; y = 40; ctx.textAlign = 'left'; }
+        if (pos === 'center') { x = canvas.width/2; y = canvas.height/2; ctx.textAlign = 'center'; }
+        ctx.fillText(text, x, y);
+        $('opacityVal').textContent = op;
+        $('sizeVal').textContent = size;
+      }
+      $('wmText').oninput = preview;
+      $('wmPosition').onchange = preview;
+      $('wmOpacity').oninput = preview;
+      $('wmSize').oninput = preview;
+      preview();
+      $('applyWatermark').onclick = () => {
+        watermarkSettings.text = $('wmText').value;
+        watermarkSettings.position = $('wmPosition').value;
+        watermarkSettings.opacity = parseFloat($('wmOpacity').value);
+        watermarkSettings.fontSize = parseInt($('wmSize').value);
+        localStorage.setItem('watermark_text', watermarkSettings.text);
+        localStorage.setItem('watermark_position', watermarkSettings.position);
+        localStorage.setItem('watermark_opacity', watermarkSettings.opacity);
+        localStorage.setItem('watermark_fontSize', watermarkSettings.fontSize);
+        alert(' Налаштування збережено!');
+      };
+    }
+
+    function toggleSlideshow() {
+      if (isSlideshowActive) {
+        if (slideShowInterval) clearInterval(slideShowInterval);
+        isSlideshowActive = false;
+        $('slideshowBtn').innerHTML = '<i class="fa-solid fa-play"></i> Слайд-шоу';
+      } else {
+        slideShowInterval = setInterval(() => {
+          if (currentPhotos.length > 0) {
+            currentPhotoIndex = (currentPhotoIndex + 1) % currentPhotos.length;
+            drawViewer();
+          }
+        }, 3000);
+        isSlideshowActive = true;
+        $('slideshowBtn').innerHTML = '<i class="fa-solid fa-pause"></i> Зупинити';
+      }
+    }
+
+    function initEvents() {
+      $('openLoginBtn').onclick = () => openAuth('login');
+      $('openRegisterBtn').onclick = () => openAuth('register');
+      $('heroRegisterBtn').onclick = () => openAuth('register');
+
+      document.querySelectorAll('[data-close]').forEach(x => x.onclick = () => closeAllModals());
+      document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m) closeAllModals(); }));
+
+      $('loginForm').onsubmit = (e) => {
+        e.preventDefault();
+        const user = db.users.find(u => u.email === $('loginEmail').value.trim() && u.password === $('loginPassword').value);
+        if (!user) {
+          $('loginError').textContent = 'Невірний email або пароль';
+          $('loginError').style.display = 'block';
+          return;
+        }
+        currentUser = user;
+        localStorage.setItem('photosphere_current_user', user.id);
+        closeAllModals();
+        showScreen('dashboard');
+        updateProfile();
+        renderDashboard();
+      };
+
+      $('registerForm').onsubmit = (e) => {
+        e.preventDefault();
+        const name = $('regName').value.trim();
+        const nick = $('regNick').value.trim().replace('@', '');
+        const email = $('regEmail').value.trim();
+        const pass = $('regPassword').value;
+        if (pass !== $('regConfirm').value) {
+          $('regError').textContent = 'Паролі не співпадають';
+          $('regError').style.display = 'block';
+          return;
+        }
+        if (db.users.some(u => u.email === email)) {
+          $('regError').textContent = 'Email вже зареєстрований';
+          $('regError').style.display = 'block';
+          return;
+        }
+        const user = { id: uid(), name, nick, email, password: pass, createdAt: new Date().toISOString() };
+        db.users.push(user);
+        saveDB();
+        currentUser = user;
+        localStorage.setItem('photosphere_current_user', user.id);
+        $('regSuccess').style.display = 'block';
+        setTimeout(() => {
+          closeAllModals();
+          showScreen('dashboard');
+          updateProfile();
+          renderDashboard();
+        }, 500);
+      };
+
+      $('toRegisterLink').onclick = (e) => { e.preventDefault(); openAuth('register'); };
+      $('toLoginLink').onclick = (e) => { e.preventDefault(); openAuth('login'); };
+
+      $('logoutBtn').onclick = () => {
+        localStorage.removeItem('photosphere_current_user');
+        currentUser = null;
+        showScreen('landing');
+      };
+
+      $('newGalleryBtn').onclick = () => {
+        $('galleryForm').reset();
+        $('galleryId').value = '';
+        $('galleryModalTitle').textContent = 'Створити галерею';
+        $('passGroup').style.display = 'none';
+        openModal('galleryModal');
+      };
+
+      document.querySelectorAll('.side-nav a').forEach(a => {
+        a.onclick = () => {
+          const page = a.dataset.page;
+          if (page === 'galleries') renderDashboard();
+          if (page === 'create') $('newGalleryBtn').click();
+          if (page === 'messages') renderMessages();
+          if (page === 'settings') renderSettings();
+          if (page === 'watermark') renderWatermarkSettings();
+        };
+      });
+
+      $('galleryAccess').onchange = () => {
+        $('passGroup').style.display = $('galleryAccess').value === 'private' ? 'block' : 'none';
+      };
+
+      $('galleryForm').onsubmit = (e) => {
+        e.preventDefault();
+        const id = $('galleryId').value;
+        const data = {
+          title: $('galleryTitle').value.trim(),
+          description: $('galleryDesc').value.trim(),
+          coverImage: $('galleryCover').value.trim(),
+          access: $('galleryAccess').value,
+          password: $('galleryAccess').value === 'private' ? $('galleryPassword').value : '',
+          updatedAt: new Date().toISOString()
+        };
+        if (id) {
+          Object.assign(db.galleries.find(g => g.id == id), data);
+        } else {
+          db.galleries.push({ ...data, id: uid(), userId: currentUser.id, uniqueLink: uniqueLink(), createdAt: new Date().toISOString() });
+        }
+        saveDB();
+        closeAllModals();
+        renderDashboard();
+      };
+
+      $('chooseFiles').onclick = () => $('fileInput').click();
+      $('fileInput').onchange = (e) => handleFiles([...e.target.files]);
+
+      const dropArea = $('dropArea');
+      dropArea.ondragover = (e) => { e.preventDefault(); dropArea.classList.add('drag'); };
+      dropArea.ondragleave = () => dropArea.classList.remove('drag');
+      dropArea.ondrop = (e) => { e.preventDefault(); dropArea.classList.remove('drag'); handleFiles([...e.dataTransfer.files]); };
+
+      $('prevPhotoBtn').onclick = () => { if (currentPhotoIndex > 0) { currentPhotoIndex--; drawViewer(); } };
+      $('nextPhotoBtn').onclick = () => { if (currentPhotoIndex < currentPhotos.length - 1) { currentPhotoIndex++; drawViewer(); } };
+      $('copyPhotoLinkBtn').onclick = () => { navigator.clipboard.writeText(currentPhotos[currentPhotoIndex]?.url); alert('Посилання скопійовано'); };
+      $('downloadPhotoBtn').onclick = () => downloadPhoto(currentPhotos[currentPhotoIndex]?.url, currentPhotos[currentPhotoIndex]?.fileName);
+      $('deletePhotoBtn').onclick = () => { if(confirm('Видалити фото?')) deletePhoto(currentPhotos[currentPhotoIndex]?.id); };
+      $('slideshowBtn').onclick = () => toggleSlideshow();
+      $('copyShareBtn').onclick = () => { navigator.clipboard.writeText($('shareLink').value); alert('Посилання скопійовано'); };
+
+      document.addEventListener('keydown', (e) => {
+        if (document.getElementById('viewerModal').style.display === 'flex') {
+          if (e.key === 'Escape') closeAllModals();
+          if (e.key === 'ArrowLeft' && currentPhotoIndex > 0) { currentPhotoIndex--; drawViewer(); }
+          if (e.key === 'ArrowRight' && currentPhotoIndex < currentPhotos.length - 1) { currentPhotoIndex++; drawViewer(); }
+        }
+      });
+    }
+
+    function openAuth(mode) {
+      openModal('authModal');
+      $('authTitle').textContent = mode === 'login' ? 'Вхід' : 'Реєстрація';
+      $('loginForm').style.display = mode === 'login' ? 'block' : 'none';
+      $('registerForm').style.display = mode === 'register' ? 'block' : 'none';
+      $('loginError').style.display = 'none';
+      $('regError').style.display = 'none';
+    }
+
+    function checkAutoLogin() {
+      const savedUserId = localStorage.getItem('photosphere_current_user');
+      if (savedUserId) {
+        const user = db.users.find(u => u.id == savedUserId);
+        if (user) {
+          currentUser = user;
+          showScreen('dashboard');
+          updateProfile();
+          renderDashboard();
+          return true;
+        }
+      }
+      return false;
+    }
+
+    loadDB();
+    initEvents();
+
+
+    checkAutoLogin();
+
+    window.openReplyModal = openReplyModal;
+    window.sendReply = sendReply;
+</script>
+</body>
+</html>
